@@ -5,6 +5,7 @@ import { ReqGetAllProducts, ReqCreateProduct, ReqGetProductById, ReqUpdateProduc
 import { ReqLogin, ReqRegister } from "../controllers/authController";
 import { authetication } from "../middleware/authenticateMiddleware";
 import { ReqGetProfile } from "../controllers/userController";
+import { ReqGetCategories } from "../controllers/categoryController";
 
 const router: Router = express.Router();
 const root: RouteGroup = new RouteGroup('/', router);
@@ -27,6 +28,8 @@ router.post("/products", authetication, ReqCreateProduct);
 router.get("/products/:id", ReqGetProductById);
 router.put("/products/:id", authetication, ReqUpdateProductById);
 router.delete("/products/:id", authetication, ReqDeleteProductById);
+
+router.get("/categories", ReqGetCategories);
 
 router.get("/", (req: Request, res: Response) => {
   handleOk(res, "Welcome to E-commerce API", {
