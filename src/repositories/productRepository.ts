@@ -1,9 +1,14 @@
 import Product from "../models/Product";
+import { v4 as uuidv4 } from 'uuid';
 
-export const getAll = async (): Promise<Product[] | undefined> => {
+export const getAll = async (): Promise<Product[] | null> => {
   return await Product
     .query()
-    .withGraphFetched("category");
+    .select("id", "name", "description", "price", "quantity")
+    .withGraphFetched("category")
+    .modifyGraph('category', (builder) => { 
+      builder.select('name')
+    });
 }
 
 export const create = async (
@@ -13,7 +18,10 @@ export const create = async (
   quantity: number,
   category_id: number
 ): Promise<Product> => {
-  return await Product.query().insert({ 
+  const id: string = uuidv4();
+
+  return await Product.query().insert({
+    id,
     name, 
     description, 
     price, 
@@ -26,7 +34,11 @@ export const getById = async (id: string): Promise<Product | undefined> => {
   return await Product
     .query()
     .findById(id)
-    .withGraphFetched("category");
+    .select("id", "name", "description", "price", "quantity")
+    .withGraphFetched("category")
+    .modifyGraph('category', (builder) => { 
+      builder.select('name')
+    });
 }
 
 export const updateById = async (

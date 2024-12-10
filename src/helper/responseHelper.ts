@@ -1,6 +1,6 @@
 import { Response } from 'express';
 
-export const handleOk = <T>(res: Response, message: string, data: T) => {
+export const handleOk = <T>(res: Response, message: string, data?: T) => {
   return res.status(200).json({
     status: true,
     message,

@@ -1,14 +1,24 @@
 import Product from "../models/Product";
 import { create, deleteById, getAll, getById, updateById } from "../repositories/productRepository";
+import { FormattedProduct } from "../types/FormattedProduct";
 
-export const getAllProducts = async (): Promise<Product[] | undefined> => {
+export const getAllProducts = async (): Promise<FormattedProduct[] | null> => {
   try {
-    const products: Product[] | undefined = await getAll();
-    console.log("Services");
-    if (!products) return undefined
+    const products: Product[] | null = await getAll();
+    if (!products) return null
+
+    const formattedProducts: FormattedProduct[] = products.map((product: Product) => ({
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      quantity: product.quantity,
+      category: product.category.name
+    }));
   
-    return products;      
+    return formattedProducts;      
   } catch (error) {
+    console.log(error);
     throw new Error('Error getting products');
   }
 }
@@ -26,17 +36,28 @@ export const createProduct =  async (
 
     return product;    
   } catch (error) {
+    console.log(error);
     throw new Error('Error creating product');
   }
 }
 
-export const getProductById = async (id: string): Promise<Product | null> => {
+export const getProductById = async (id: string): Promise<FormattedProduct | null> => {
   try {
     const product: Product | undefined = await getById(id);
     if (!product) return null
   
-    return product;      
+    const formattedProducts: FormattedProduct = {
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      quantity: product.quantity,
+      category: product.category.name
+    };
+  
+    return formattedProducts;      
   } catch (error) {
+    console.log(error);
     throw new Error('Error getting product');
   }
 }
@@ -52,6 +73,7 @@ export const updateProductById = async (
   try {
     await updateById(id, name, description, price, quantity, category_id);    
   } catch (error) {
+    console.log(error);
     throw new Error('Error updating product');
   }
 }
@@ -60,6 +82,7 @@ export const deleteProductById = async (id: string): Promise<void> => {
   try {
     await deleteById(id);
   } catch (error) {
+    console.log(error);
     throw new Error('Error deleting product');
   }
 }

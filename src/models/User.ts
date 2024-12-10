@@ -9,7 +9,7 @@ class User extends Model {
   createdAt!: Date;
   updatedAt!: Date;
 
-  static get tableName() {
+  static get tableName(): string {
     return "users";
   }
 }

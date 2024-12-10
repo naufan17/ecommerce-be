@@ -5,6 +5,10 @@ class Category extends Model {
   name!: string;
   createdAt!: Date;
   updatedAt!: Date;
+
+  static get tableName(): string {
+    return "categories";
+  }
 }
 
 export default Category;

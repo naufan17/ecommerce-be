@@ -1,10 +1,10 @@
 import express, { Router, Request, Response } from "express";
-// import RouteGroup from 'express-route-grouping';
+import RouteGroup from 'express-route-grouping';
 import { handleNotFound, handleOk, handleInternalServerError } from "../helper/responseHelper";
-import { ReqGetAllProducts, ReqCreateProduct, ReqGetProductById, ReqUpdateProductById, ReqDeleteProductById } from "../controllers/ProductController";
+import { ReqGetAllProducts, ReqCreateProduct, ReqGetProductById, ReqUpdateProductById, ReqDeleteProductById } from "../controllers/productController";
 
 const router: Router = express.Router();
-// const root: RouteGroup = new RouteGroup('/', router);
+const root: RouteGroup = new RouteGroup('/', router);
 
 // root.group('products', (product) => {
 //   product.get('/', ReqGetAllProducts);

@@ -13,11 +13,11 @@ class Product extends Model {
   updatedAt!: Date;
 
 
-  static get tableName() {
+  static get tableName(): string {
     return "products";
   }
 
-  static get relationMappings() {
+  static get relationMappings(): any {
     return {
       category: {
         relation: Model.BelongsToOneRelation,
