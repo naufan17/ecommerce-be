@@ -10,7 +10,7 @@ const app: Express = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors()); 
 app.use(helmet());
 app.use(compress());
 app.use("/api/v1", routes);

@@ -22,7 +22,7 @@ const knexConfig: { [key: string]: Knex.Config } = {
       directory: "./database/migrations"
     },
     seeds: {
-      directory: "/database/seeds"
+      directory: "./database/seeds"
     }
   },
   staging: {
@@ -37,7 +37,7 @@ const knexConfig: { [key: string]: Knex.Config } = {
       directory: "./database/migrations"
     },
     seeds: {
-      directory: "/database/seeds"
+      directory: "./database/seeds"
     }
   }
 };
