@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import cors from "cors";
 import helmet from "helmet";
+import morgan from "morgan";
 import compress from "compression";
 import routes from "./routes";
 import swaggerUi from "swagger-ui-express";
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors()); 
 app.use(helmet());
+app.use(morgan('combined'));
 app.use(compress());
 app.use('/api/v1', routes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
