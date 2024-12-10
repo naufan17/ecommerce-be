@@ -6,7 +6,7 @@ import { FormattedProduct } from "../types/FormattedProduct";
 export const ReqGetAllProducts = async (req: Request, res: Response): Promise<void> => {
   try {
     const products: FormattedProduct[] | null = await getAllProducts();
-    if (!products) handleNotFound(res, "No products found");
+    if (products === null) handleNotFound(res, "No products found");
 
     handleOk(res, "Products found", products);
   } catch (error) {
@@ -31,7 +31,7 @@ export const ReqGetProductById = async (req: Request, res: Response): Promise<vo
 
   try {
     const product: FormattedProduct | null = await getProductById(id);
-    if (!product) handleNotFound(res, "Product not found");
+    if (product === null) handleNotFound(res, "Product not found");
 
     handleOk(res, "Product found", product);
   } catch (error) {

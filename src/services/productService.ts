@@ -31,8 +31,7 @@ export const createProduct =  async (
   category_id: number
 ): Promise<Product | undefined> => {
   try {
-    const product: Product | undefined = await create(name, description, price, quantity, category_id);
-    if (!product) return undefined
+    const product: Product = await create(name, description, price, quantity, category_id);
 
     return product;    
   } catch (error) {

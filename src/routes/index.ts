@@ -2,6 +2,7 @@ import express, { Router, Request, Response } from "express";
 import RouteGroup from 'express-route-grouping';
 import { handleNotFound, handleOk, handleInternalServerError } from "../helper/responseHelper";
 import { ReqGetAllProducts, ReqCreateProduct, ReqGetProductById, ReqUpdateProductById, ReqDeleteProductById } from "../controllers/productController";
+import { ReqLogin, ReqRegister } from "../controllers/authController";
 
 const router: Router = express.Router();
 const root: RouteGroup = new RouteGroup('/', router);
@@ -19,6 +20,9 @@ router.post("/products", ReqCreateProduct);
 router.get("/products/:id", ReqGetProductById);
 router.put("/products/:id", ReqUpdateProductById);
 router.delete("/products/:id", ReqDeleteProductById);
+
+router.post("/auth/register", ReqRegister);
+router.post("/auth/login", ReqLogin);
 
 router.get("/", (req: Request, res: Response) => {
   handleOk(res, "Welcome to E-commerce API", {

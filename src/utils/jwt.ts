@@ -1,7 +1,7 @@
 import jwt, { JwtPayload, SignOptions, VerifyOptions } from "jsonwebtoken";
 
 export const generateToken = (payload: JwtPayload) => {
-  const secretToken: string = process.env.JWT_SECRET || "";
+  const secretToken: string = process.env.JWT_SECRET_ACCESS_TOKEN || "";
   const options: SignOptions = {
     expiresIn: "1h",
   };
@@ -10,7 +10,7 @@ export const generateToken = (payload: JwtPayload) => {
 };
 
 export const verifyToken = (token: string) => {
-  const secretToken: string = process.env.JWT_SECRET || "";
+  const secretToken: string = process.env.JWT_SECRET_ACCESS_TOKEN || "";
   const options: VerifyOptions = {
     ignoreExpiration: false,
   };
