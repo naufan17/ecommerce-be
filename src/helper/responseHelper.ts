@@ -1,6 +1,6 @@
 import { Response } from 'express';
 
-export const handleSuccess = <T>(res: Response, message: string, data: T) => {
+export const handleOk = <T>(res: Response, message: string, data: T) => {
   return res.status(200).json({
     status: true,
     message,
@@ -50,7 +50,7 @@ export const handleConflict = (res: Response, message: string) => {
   });
 }
 
-export const handleError = (res: Response, message: string, error: unknown) => {
+export const handleInternalServerError = (res: Response, message: string, error: unknown) => {
   return res.status(500).json({
     status: false,
     message,
