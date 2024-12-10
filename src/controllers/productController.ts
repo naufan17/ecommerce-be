@@ -3,6 +3,7 @@ import { createProduct, deleteProductById, getAllProducts, getProductById, updat
 import { handleNotFound, handleOk, handleInternalServerError, handleCreated, handleBadRequest } from "../helper/responseHelper";
 import { FormattedProduct } from "../types/FormattedProduct";
 import { validationResult } from "express-validator";
+import Product from "../models/Product";
 
 export const ReqGetAllProducts = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -32,11 +33,10 @@ export const ReqCreateProduct = async (req: Request, res: Response): Promise<voi
 
 export const ReqGetProductById = async (req: Request, res: Response): Promise<void> => {
   const id: string = req.params.id;
-  if (!id) return handleNotFound(res, "Product not found");
 
   try {
     const product: FormattedProduct | null = await getProductById(id);
-    if (product === null) handleNotFound(res, "Product not found");
+    if (product === null) return handleNotFound(res, "Product not found");
 
     return handleOk(res, "Product found", product);
   } catch (error) {
@@ -46,7 +46,6 @@ export const ReqGetProductById = async (req: Request, res: Response): Promise<vo
 
 export const ReqUpdateProductById = async (req: Request, res: Response): Promise<void> => {
   const id: string = req.params.id;
-  if (!id) return handleNotFound(res, "Product not found");
 
   const { name, description, price, quantity, category_id } = req.body;
   const errors = validationResult(req);
@@ -54,7 +53,8 @@ export const ReqUpdateProductById = async (req: Request, res: Response): Promise
   if (!errors.isEmpty()) return handleBadRequest(res, "Validation errors", errors.array());
 
   try {
-    await updateProductById(id, name, description, price, quantity, category_id);
+    const product: Product | null = await updateProductById(id, name, description, price, quantity, category_id);
+    if (product === null) return handleNotFound(res, "Product not found");
 
     return handleCreated(res, "Product updated");
   } catch (error) {
@@ -64,10 +64,10 @@ export const ReqUpdateProductById = async (req: Request, res: Response): Promise
 
 export const ReqDeleteProductById = async (req: Request, res: Response): Promise<void> => {
   const id: string = req.params.id;
-  if (!id) return handleNotFound(res, "Product not found");
 
   try {
-    await deleteProductById(id);
+    const product: Product | null = await deleteProductById(id);
+    if (product === null) return handleNotFound(res, "Product not found");
 
     return handleOk(res, "Product deleted");
   } catch (error) {

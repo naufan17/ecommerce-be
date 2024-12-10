@@ -28,7 +28,7 @@ export const ReqLogin = async (req: Request, res: Response): Promise<void> => {
 
   try {
     const accessToken: string | null = await login(email, password);
-    if (accessToken === null) handleUnauthorized(res, "Invalid email or password");
+    if (accessToken === null) return handleUnauthorized(res, "Invalid email or password");
 
     return handleOk(res, "User logged in", { accessToken });
   } catch (error) {
