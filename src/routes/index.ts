@@ -4,6 +4,7 @@ import { handleNotFound, handleOk, handleInternalServerError } from "../helper/r
 import { ReqGetAllProducts, ReqCreateProduct, ReqGetProductById, ReqUpdateProductById, ReqDeleteProductById } from "../controllers/productController";
 import { ReqLogin, ReqRegister } from "../controllers/authController";
 import { authetication } from "../middleware/authenticateMiddleware";
+import { ReqGetProfile } from "../controllers/userController";
 
 const router: Router = express.Router();
 const root: RouteGroup = new RouteGroup('/', router);
@@ -16,14 +17,16 @@ const root: RouteGroup = new RouteGroup('/', router);
 //   product.delete('/:id', ReqDeleteProductById);
 // });
 
+router.post("/auth/register", ReqRegister);
+router.post("/auth/login", ReqLogin);
+
+router.get("/profile", authetication, ReqGetProfile);
+
 router.get("/products", ReqGetAllProducts);
 router.post("/products", authetication, ReqCreateProduct);
 router.get("/products/:id", ReqGetProductById);
 router.put("/products/:id", authetication, ReqUpdateProductById);
 router.delete("/products/:id", authetication, ReqDeleteProductById);
-
-router.post("/auth/register", ReqRegister);
-router.post("/auth/login", ReqLogin);
 
 router.get("/", (req: Request, res: Response) => {
   handleOk(res, "Welcome to E-commerce API", {
