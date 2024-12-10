@@ -5,38 +5,40 @@ import { ReqLogin, ReqRegister } from "../controllers/authController";
 import { authetication } from "../middleware/authenticateMiddleware";
 import { ReqGetProfile } from "../controllers/userController";
 import { ReqGetCategories } from "../controllers/categoryController";
+import { loginValidator, registerValidator } from "../validators/authValidator";
+import { createProductValidator, updateProductValidator } from "../validators/productValidator";
 
 const router: Router = express.Router();
 
 // Authentication route
-router.post("/auth/register", ReqRegister);
-router.post("/auth/login", ReqLogin);
+router.post("/auth/register", registerValidator(), ReqRegister);
+router.post("/auth/login", loginValidator(), ReqLogin);
 
 // User route
 router.get("/profile", authetication, ReqGetProfile);
 
 // Product route
 router.get("/products", ReqGetAllProducts);
-router.post("/products", authetication, ReqCreateProduct);
+router.post("/products", createProductValidator(), authetication, ReqCreateProduct);
 router.get("/products/:id", ReqGetProductById);
-router.put("/products/:id", authetication, ReqUpdateProductById);
+router.put("/products/:id", updateProductValidator(), authetication, ReqUpdateProductById);
 router.delete("/products/:id", authetication, ReqDeleteProductById);
 
 // Category route
 router.get("/categories", ReqGetCategories);
 
 router.get("/", (req: Request, res: Response) => {
-  handleOk(res, "Welcome to E-commerce API", {
+  return handleOk(res, "Welcome to E-commerce API", {
     version: '1.0'
   });
 });
 
 router.use((req: Request, res: Response) => {
-  handleNotFound(res, "Route not found");
+  return handleNotFound(res, "Route not found");
 })
 
 router.use((err: unknown, req: Request, res: Response) => {
-  handleInternalServerError(res, "Internal server error", err);
+  return handleInternalServerError(res, "Internal server error", err);
 })
 
 export default router;

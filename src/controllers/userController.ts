@@ -5,14 +5,14 @@ import { handleInternalServerError, handleNotFound, handleOk } from "../helper/r
 
 export const ReqGetProfile = async (req: Request | any, res: Response): Promise<void> => {
   const user : any = req.user;
-  if (!user) handleNotFound(res, "User not found");
+  if (!user) return handleNotFound(res, "User not found");
 
   try {
     const profile: User | null = await getProfile(user.sub);
-    if (user === null) handleNotFound(res, "User not found");
+    if (user === null) return handleNotFound(res, "User not found");
   
-    handleOk(res, "Profile found", profile);
+    return handleOk(res, "Profile found", profile);
   } catch (error) {
-    handleInternalServerError(res, "Error getting profile", error);
+    return handleInternalServerError(res, "Error getting profile", error);
   }
 }
