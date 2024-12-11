@@ -33,12 +33,6 @@ RUN npm run build
 # Remove development dependencies
 RUN npm prune --omit=dev
 
-# Migrate database
-RUN npm run migrate
-
-# Seed database
-RUN npm run seed
-
 # Final stage for app image
 FROM base
 
@@ -47,4 +41,4 @@ COPY --from=build /dist /dist
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 8000
-CMD [ "npm", "run", "start" ]
+CMD [ "npm run migrate && npm run seed && npm run start" ]
