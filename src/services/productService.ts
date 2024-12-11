@@ -13,6 +13,7 @@ export const getAllProducts = async (): Promise<FormattedProduct[] | null> => {
       description: product.description,
       price: product.price,
       quantity: product.quantity,
+      image: product.image,
       category: product.category.name
     }));
   
@@ -49,6 +50,7 @@ export const getProductById = async (id: string): Promise<FormattedProduct | nul
       description: product.description,
       price: product.price,
       quantity: product.quantity,
+      image: product.image,
       category: product.category.name
     };
   
