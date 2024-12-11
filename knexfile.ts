@@ -4,7 +4,9 @@ import { DatabaseCofig } from "./src/types/DatabaseConfig";
 
 dotenv.config();
 
-const { DATABASE_URL } = process.env as Required<DatabaseCofig>;
+const { 
+  DATABASE_URL
+} = process.env as unknown as Required<DatabaseCofig>;
 
 const knexConfig: { [key: string]: Knex.Config } = {
   development: {

@@ -41,4 +41,4 @@ COPY --from=build /dist /dist
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 8000
-CMD [ "npm" "run" "migrate" "&&" "npm" "run" "seed" "&&" "npm" "run" "start" ]
+CMD [ "npm", "run", "start" ]
