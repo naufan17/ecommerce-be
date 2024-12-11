@@ -13,6 +13,7 @@ export const getAllProducts = async (): Promise<FormattedProduct[] | null> => {
       description: product.description,
       price: product.price,
       quantity: product.quantity,
+      image: product.image,
       category: product.category.name
     }));
   
@@ -31,9 +32,7 @@ export const createProduct =  async (
   category_id: number
 ): Promise<Product | undefined> => {
   try {
-    const product: Product = await create(name, description, price, quantity, category_id);
-
-    return product;    
+    return await create(name, description, price, quantity, category_id);   
   } catch (error) {
     console.log(error);
     throw new Error('Error creating product');
@@ -51,13 +50,15 @@ export const getProductById = async (id: string): Promise<FormattedProduct | nul
       description: product.description,
       price: product.price,
       quantity: product.quantity,
+      image: product.image,
       category: product.category.name
     };
   
     return formattedProducts;      
   } catch (error) {
     console.log(error);
-    throw new Error('Error getting product');
+    return null;
+    // throw new Error('Error getting product');
   }
 }
 
@@ -68,20 +69,28 @@ export const updateProductById = async (
   price: number, 
   quantity: number,
   category_id: number
-): Promise<void> => {
+): Promise<Product | null> => {
   try {
-    await updateById(id, name, description, price, quantity, category_id);    
+    const product: Product | undefined = await getById(id);
+    if (!product) return null;
+    
+    return await updateById(id, name, description, price, quantity, category_id);    
   } catch (error) {
     console.log(error);
-    throw new Error('Error updating product');
+    return null;
+    // throw new Error('Error updating product');
   }
 }
 
-export const deleteProductById = async (id: string): Promise<void> => {
+export const deleteProductById = async (id: string): Promise<Product | null> => {
   try {
-    await deleteById(id);
+    const product: Product | undefined = await getById(id);
+    if (!product) return null;
+
+    return await deleteById(id);
   } catch (error) {
     console.log(error);
-    throw new Error('Error deleting product');
+    return null;
+    // throw new Error('Error deleting product');
   }
 }

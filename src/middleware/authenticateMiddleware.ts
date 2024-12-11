@@ -1,18 +1,23 @@
 import { Request, Response, NextFunction } from "express";
 import { handleUnauthorized } from "../helper/responseHelper";
 import { verifyToken } from "../utils/jwt";
+import { JsonWebTokenError } from "jsonwebtoken";
 
 export const authetication = (req: Request | any, res: Response, next: NextFunction) => {
   const token: string | undefined = req.headers.authorization?.split(" ")[1];
+  if (!token) return handleUnauthorized(res, "Invalid credentials");
 
-  if (token) {
-    const decoded: any = verifyToken(token);
-    if (!decoded) handleUnauthorized(res, "Invalid token");
+  try {
+    if (token) {
+      const decoded: any = verifyToken(token);
 
-    req.user = decoded;
+      req.user = decoded;  
 
-    next();
-  } else {
-    handleUnauthorized(res, "Invalid credentials");
+      next();
+    } else {
+      return handleUnauthorized(res, "Invalid credentials");
+    }      
+  } catch (error) {
+    return handleUnauthorized(res, "Invalid credentials");
   }
 };

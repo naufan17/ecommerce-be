@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const getAll = async (): Promise<Product[] | null> => {
   return await Product
     .query()
-    .select("id", "name", "description", "price", "quantity")
+    .select("id", "name", "description", "price", "quantity", "image")
     .withGraphFetched("category")
     .modifyGraph('category', (builder) => { 
       builder.select('name')
@@ -19,6 +19,7 @@ export const create = async (
   category_id: number
 ): Promise<Product> => {
   const id: string = uuidv4();
+  const image: string = "https://res.cloudinary.com/ddpbwjjfz/image/upload/v1733881250/ecommerce/eznidmd22q4bqi59nsju.jpg";
 
   return await Product.query().insert({
     id,
@@ -26,6 +27,7 @@ export const create = async (
     description, 
     price, 
     quantity,
+    image,
     category_id
   });
 }
@@ -34,7 +36,7 @@ export const getById = async (id: string): Promise<Product | undefined> => {
   return await Product
     .query()
     .findById(id)
-    .select("id", "name", "description", "price", "quantity")
+    .select("id", "name", "description", "price", "quantity", "image")
     .withGraphFetched("category")
     .modifyGraph('category', (builder) => { 
       builder.select('name')

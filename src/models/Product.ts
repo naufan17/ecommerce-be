@@ -7,6 +7,7 @@ class Product extends Model {
   description!: string;
   price!: number;
   quantity!: number;
+  image!: string;
   category_id!: number;
   category!: Category;
   createdAt!: Date;
