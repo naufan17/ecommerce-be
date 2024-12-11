@@ -33,6 +33,11 @@ RUN npm run build
 # Remove development dependencies
 RUN npm prune --omit=dev
 
+# Migrate database
+RUN npm run migrate
+
+# Seed database
+RUN npm run seed
 
 # Final stage for app image
 FROM base
